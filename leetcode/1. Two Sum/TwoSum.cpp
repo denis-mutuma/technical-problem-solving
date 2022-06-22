@@ -3,24 +3,24 @@ class Solution
 public:
     vector<int> twoSum(vector<int> &nums, int target)
     {
-        map<int, int> m = {};
-
-        vector<int> answer{};
-
-        for (int i = 0; i < nums.size(); i++)
+        map<int, int> comp{};
+        vector<int> res{};
+        int i = 0;
+        for (auto &num : nums)
         {
-            auto search = m.find(target - nums[i]);
-            if (search != m.end())
+            auto search = comp.find(target - num);
+            if (search != comp.end())
             {
-                answer.emplace_back(search->second);
-                answer.emplace_back(i);
-                return answer;
+                res.emplace_back(i);
+                res.emplace_back(search->second);
+                return res;
             }
             else
             {
-                m.emplace(make_pair(nums[i], i));
+                comp.emplace(make_pair(num, i));
             }
+            i++;
         }
-        return nums;
+        return res;
     }
 };
