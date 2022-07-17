@@ -3,20 +3,12 @@ class Solution
 public:
     int maxProfit(vector<int> &prices)
     {
-        int maxProfit{0};
-        int minPrice = prices[0];
-
-        for (int num : prices)
+        int minPrice = prices[0], maxProfit = 0;
+        for (const int price : prices)
         {
-            if (num < minPrice)
-            {
-                minPrice = num;
-            }
-            int profit = num - minPrice;
-            if (profit > maxProfit)
-            {
-                maxProfit = profit;
-            }
+            int profit = price - minPrice;
+            maxProfit = max(maxProfit, profit);
+            minPrice = min(price, minPrice);
         }
         return maxProfit;
     }

@@ -1,34 +1,29 @@
 type MinStack struct {
-	stack []int
-	min   []int
+	stack    []int
+	minStack []int
 }
 
 func Constructor() MinStack {
-	stack := make([]int, 0)
 	min := make([]int, 0)
+	stack := make([]int, 0)
 	minStack := MinStack{stack, min}
 	return minStack
 }
 
 func (this *MinStack) Push(val int) {
 	this.stack = append(this.stack, val)
-	if len(this.min) == 0 {
-		this.min = append(this.min, val)
-	} else if val <= this.min[len(this.min)-1] {
-		this.min = append(this.min, val)
+	if len(this.minStack) == 0 {
+		this.minStack = append(this.minStack, val)
+	} else if val < this.minStack[len(this.minStack)-1] {
+		this.minStack = append(this.minStack, val)
+	} else {
+		this.minStack = append(this.minStack, this.minStack[len(this.minStack)-1])
 	}
 }
 
-//2, 0, 3
-//2, 0, 0
-
 func (this *MinStack) Pop() {
-	if this.stack[len(this.stack)-1] == this.min[len(this.min)-1] {
-		this.stack = this.stack[:len(this.stack)-1]
-		this.min = this.min[:len(this.min)-1]
-		return
-	}
 	this.stack = this.stack[:len(this.stack)-1]
+	this.minStack = this.minStack[:len(this.minStack)-1]
 }
 
 func (this *MinStack) Top() int {
@@ -37,11 +32,8 @@ func (this *MinStack) Top() int {
 }
 
 func (this *MinStack) GetMin() int {
-	if len(this.min) > 0 {
-		min := this.min[len(this.min)-1]
-		return min
-	}
-	return 0
+	min := this.minStack[len(this.minStack)-1]
+	return min
 }
 
 /**

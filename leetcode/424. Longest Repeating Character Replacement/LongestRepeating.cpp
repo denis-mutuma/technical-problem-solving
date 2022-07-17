@@ -3,31 +3,37 @@ class Solution
 public:
     int characterReplacement(string s, int k)
     {
-        int low = 0, high = 0;
-        int count = 0, maxCount = 0;
+
         map<char, int> m;
+        int low = 0, high = 0, count = 0, maxCount = 0;
+
         while (high < s.length())
         {
             m[s[high]]++;
-            int mostFreq = 0;
-            int mapSize = 0;
-            for (auto chr : m)
+            int freqCount = 0, mapSize = 0;
+            for (auto &[chr, charCount] : m)
             {
-                mostFreq = max(mostFreq, chr.second);
-                mapSize += chr.second;
+                freqCount = max(freqCount, charCount);
+                mapSize += charCount;
             }
-            if (mapSize - mostFreq <= k)
+            if (mapSize - freqCount <= k)
             {
                 count++;
-                high++;
-                maxCount = max(maxCount, mapSize);
             }
             else
             {
+                mapSize--;
                 m[s[low]]--;
+                auto search = m.find(s[low]);
+                if (search->second == 0)
+                {
+                    m.erase(s[low]);
+                }
+                count = mapSize;
                 low++;
-                high++;
             }
+            high++;
+            maxCount = max(count, maxCount);
         }
         return maxCount;
     }

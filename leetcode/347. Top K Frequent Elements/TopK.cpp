@@ -3,6 +3,35 @@ class Solution
 public:
     vector<int> topKFrequent(vector<int> &nums, int k)
     {
+        map<int, int> m;
+        for (auto num : nums)
+        {
+            m[num]++;
+        }
+        priority_queue<pair<int, int>> pq;
+        for (auto &[k, v] : m)
+        {
+            pq.emplace(make_pair(v, k));
+        }
+        vector<int> res;
+        while (k > 0)
+        {
+            auto top = pq.top();
+            res.push_back(top.second);
+            pq.pop();
+            k--;
+        }
+        return res;
+    }
+};
+
+//***************************************************
+
+class Solution
+{
+public:
+    vector<int> topKFrequent(vector<int> &nums, int k)
+    {
 
         vector<int> result;
         vector<vector<int>> count(nums.size() + 1);

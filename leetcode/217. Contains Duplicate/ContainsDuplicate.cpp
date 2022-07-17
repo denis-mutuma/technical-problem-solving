@@ -3,18 +3,16 @@ class Solution
 public:
     bool containsDuplicate(vector<int> &nums)
     {
-        map<int, int> m{};
-
-        for (int &num : nums)
+        map<int, int> m;
+        for (const int num : nums)
         {
-            auto search = m.find(num);
-            if (search != m.end())
+            if (m.find(num) != m.end())
             {
                 return true;
             }
             else
             {
-                m.emplace(make_pair(num, 1));
+                m[num]++;
             }
         }
         return false;

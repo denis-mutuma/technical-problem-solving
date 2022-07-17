@@ -28,3 +28,29 @@ public:
         return prev;
     }
 };
+
+//********************************************
+
+class Solution
+{
+public:
+    ListNode *reverseList(ListNode *head)
+    {
+        if (head == nullptr)
+            return nullptr;
+
+        ListNode *next = head->next;
+        ListNode *prev = head;
+        head->next = nullptr;
+        head = next;
+
+        while (head != nullptr)
+        {
+            next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+};

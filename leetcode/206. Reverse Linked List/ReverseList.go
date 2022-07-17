@@ -21,3 +21,24 @@ func reverseList(head *ListNode) *ListNode {
 	return prev
 }
 
+//***************************************
+
+func reverseList(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+
+	next := head.Next
+	prev := head
+	head.Next = nil
+	head = next
+
+	for head != nil {
+		next := head.Next
+		head.Next = prev
+		prev = head
+		head = next
+	}
+	return prev
+}
+
