@@ -3,31 +3,34 @@ class Solution
 public:
     vector<int> dailyTemperatures(vector<int> &temperatures)
     {
+
         int n = temperatures.size();
-        vector<int> res(n, 0);
+
         stack<pair<int, int>> st;
+        vector<int> result(n, 0);
+
         st.push(make_pair(temperatures[0], 0));
-        for (int i = 1; i < temperatures.size(); i++)
+
+        for (int i = 1; i < n; i++)
         {
             auto prev = st.top();
-            if (temperatures[i] > prev.first)
+            while (!st.empty())
             {
-                while (temperatures[i] > prev.first)
+                if (prev.first < temperatures[i])
                 {
-                    res[prev.second] = i - prev.second;
+                    result[prev.second] = i - prev.second;
                     st.pop();
-                    if (!st.empty())
-                        prev = st.top();
-                    else
-                        break;
                 }
-                st.push(make_pair(temperatures[i], i));
+                else
+                {
+                    break;
+                }
+                if (st.empty())
+                    break;
+                prev = st.top();
             }
-            else
-            {
-                st.push(make_pair(temperatures[i], i));
-            }
+            st.push(make_pair(temperatures[i], i));
         }
-        return res;
+        return result;
     }
 };

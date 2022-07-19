@@ -10,47 +10,39 @@ public:
         map<char, int> m1;
         map<char, int> m2;
 
-        for (char i = 'a'; i <= 'z'; i++)
-        {
-            m1[i] = 0;
-            m2[i] = 0;
-        }
-
-        for (auto chr : s1)
+        for (const char chr : s1)
         {
             m1[chr]++;
         }
 
-        for (int i = 0; i < s1.length(); i++)
+        int n = s1.length();
+        int low = 0, high = n - 1;
+
+        for (int i = 0; i < n; i++)
         {
             m2[s2[i]]++;
         }
 
-        int matches = 0;
-        int low = 0, high = s1.length() - 1;
-
         while (high < s2.length())
         {
-            for (char i = 'a'; i <= 'z'; i++)
+            bool flag = true;
+            for (auto &[k, v] : m1)
             {
-                if (m1.find(i)->second != m2.find(i)->second)
+                auto search = m2.find(k);
+                if (search->second != v)
                 {
-                    matches--;
-                }
-                else
-                {
-                    matches++;
+                    m2[s2[low]]--;
+                    high++;
+                    m2[s2[high]]++;
+                    low++;
+                    flag = false;
+                    break;
                 }
             }
-            if (matches == 26)
+            if (flag == true)
             {
                 return true;
             }
-            m2[s2[low]]--;
-            low++;
-            high++;
-            m2[s2[high]]++;
-            matches = 0;
         }
         return false;
     }
