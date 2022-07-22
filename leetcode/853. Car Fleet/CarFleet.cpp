@@ -3,38 +3,32 @@ class Solution
 public:
     int carFleet(int target, vector<int> &position, vector<int> &speed)
     {
-        set<pair<int, double>> st;
-        int i = 0;
-        for (int num : position)
-        {
-            st.insert(make_pair(num, double(target - num) / speed[i]));
-            i++;
-        }
 
+        set<pair<int, double>> st;
         stack<pair<int, double>> myStack;
+
+        for (int i = 0; i < position.size(); i++)
+        {
+            st.insert(make_pair(position[i], (double)(target - position[i]) / speed[i]));
+        }
 
         for (auto elem : st)
         {
             myStack.push(make_pair(elem.first, elem.second));
         }
 
-        int count = 0;
-        double currTop = 0.0;
+        int fleet = 0;
+
         while (!myStack.empty())
         {
             auto top = myStack.top();
-            currTop = top.second;
             myStack.pop();
-            if (!myStack.empty())
-                top = myStack.top();
-            while (top.second <= currTop && !myStack.empty())
+            while (!myStack.empty() && myStack.top().second <= top.second)
             {
                 myStack.pop();
-                if (!myStack.empty())
-                    top = myStack.top();
             }
-            count++;
+            fleet++;
         }
-        return count;
+        return fleet;
     }
 };

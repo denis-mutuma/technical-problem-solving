@@ -1,46 +1,31 @@
 class Solution
 {
 public:
-    int kokoTime(vector<int> &piles, int k)
-    {
-        int time = 0;
-        for (int pile : piles)
-        {
-            int temp = pile / k;
-            if (pile % k != 0 && pile > k)
-            {
-                temp++;
-            }
-            else if (pile % k != 0 && pile < k)
-            {
-                temp = 1;
-            }
-            time += temp;
-        }
-        return time;
-    }
-
     int minEatingSpeed(vector<int> &piles, int h)
     {
 
-        int high = piles[0];
+        int low = 1, high = 0;
 
-        for (int num : piles)
+        for (const int pile : piles)
         {
-            high = max(high, num);
+            high = max(high, pile);
         }
 
-        int low = 0;
-        int res = 0;
+        int result = high;
 
         while (low <= high)
         {
-            int mid = (low + high) / 2;
-            int k = max(mid, 1);
-            int time = kokoTime(piles, k);
-            if (time <= h)
+            int mid = low + (high - low) / 2;
+
+            long hours = 0;
+            for (int num : piles)
             {
-                res = k;
+                hours += ceil((double)num / mid);
+            }
+
+            if (hours <= h)
+            {
+                result = min(result, mid);
                 high = mid - 1;
             }
             else
@@ -48,6 +33,6 @@ public:
                 low = mid + 1;
             }
         }
-        return res;
+        return result;
     }
 };

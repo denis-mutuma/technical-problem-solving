@@ -9,7 +9,7 @@ var search = function (nums, target) {
     let high = nums.length - 1
 
     while (low <= high) {
-        let mid = parseInt((high + low) / 2)
+        let mid = parseInt(low + (high - low) / 2)
 
         if (nums[mid] === target) {
             return mid;
